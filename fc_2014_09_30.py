@@ -1,14 +1,24 @@
+# class Borg(object):
+#     _shared_state = {}
+#     def __new__(cls, *a, **k):
+#         obj = super(Borg, cls).__new__(cls, *a, **k)
+#         obj.__dict__ = cls._shared_state
+#         return obj
+
 class Borg(object):
     _shared_state = {}
-    def __new__(cls, *a, **k):
-        obj = super(Borg, cls).__new__(cls, *a, **k)
-        obj.__dict__ = cls._shared_state
-        return obj
+    def __init__(self):
+        self.__dict__ = self._shared_state
+
+class SubBorg(Borg):
+    def __init__(self):
+        super(SubBorg, self).__init__()
+        self.state = "sub"
 
 b = Borg()
 b.a = 'hi'
 
-c = Borg()
+c = SubBorg()
 print c.a  # prints 'hi'
 
 
