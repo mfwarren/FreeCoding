@@ -2,6 +2,7 @@
 #imports go here
 import inquirer
 import os
+import shutil
 
 #
 # Free Coding session for 2014-10-11
@@ -33,7 +34,7 @@ if __name__=='__main__':
         print "Switching to %s keys" % answers['keys']
 
         if os.path.isfile(file_to_use):
-            os.rename(file_to_use, PUBLIC_KEY_FILE)
+            shutil.copyfile(file_to_use, PUBLIC_KEY_FILE)
             print "You are now using your %s keys" % answers['keys']
         else:
             print "Missing %s public key." % answers['keys']
