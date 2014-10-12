@@ -8,13 +8,13 @@ import shutil
 # Free Coding session for 2014-10-11
 # Written by Matt Warren
 #
-# This script switches out my public keys so I can use two GitHub accounts
+# WARNING - THIS SCRIPT DOESN'T WORK AT ALL.
 
 PUBLIC_KEY_FILE = '~/.ssh/id_rsa.pub'
 PRIVATE_KEY_FILE = '~/.ssh/id_rsa'
 
 print """##
-## This script assumes you have multiple keys on the computer
+## This script DOESN'T WORK
 ##
 ## create files ~/.ssh/id_rsa.pub.PERSONAL and ~/.ssh/id_rsa.pub.WORK
 ## and files ~/.ssh/id_rsa.PERSONAL and ~/.ssh/id_rsa.WORK
