@@ -6,3 +6,5 @@ wsgiref==0.1.2
 PyGithub
 nose
 ipdb
+pystache
+dulwich
