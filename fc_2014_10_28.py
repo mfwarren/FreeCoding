@@ -1,8 +1,10 @@
 #!/usr/bin/env python
-#imports go here
+# imports go here
+
 from dulwich.repo import Repo
-from dulwich.objects import Blob, Tree, Commit, parse_timezone, Tag
-import os, shutil
+from dulwich.objects import Commit, parse_timezone, Tag
+import os
+import shutil
 
 #
 # Free Coding session for 2014-10-28
@@ -33,7 +35,7 @@ commit = repo.get_object(commit_id)
 print commit
 
 
-#get tree corresponding to the head commit
+# get tree corresponding to the head commit
 # tree_id = repo["HEAD"].tree
 # print tree_id
 object_store = repo.object_store

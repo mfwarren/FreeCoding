@@ -3,7 +3,7 @@ import os
 import datetime
 
 file_template = """#!/usr/bin/env python
-#imports go here
+# imports go here
 
 #
 # Free Coding session for %s
@@ -11,7 +11,7 @@ file_template = """#!/usr/bin/env python
 #
 """
 
-if __name__=='__main__':
+if __name__ == '__main__':
     today = datetime.date.today()
     filename = today.strftime('fc_%Y_%m_%d.py')
     print filename
