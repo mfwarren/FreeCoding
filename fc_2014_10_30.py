@@ -1,11 +1,29 @@
 #!/usr/bin/env python
 # imports go here
 
-from __future__ import print_function
+import pandas.io.data as web
+from pandas.io.pytables import HDFStore
+from datetime import datetime
+import csv
 
 #
 # Free Coding session for 2014-10-30
 # Written by Matt Warren
 #
 
-print("HI")
+start = datetime(2010, 1, 1)
+end = datetime.today()
+
+store = HDFStore('stock_data.h5')
+
+with open('companylist.csv', 'rb') as csvfile:
+    spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+    for row in spamreader:
+        print row[0]
+        try:
+            stock_info = web.DataReader(row[0],  "yahoo", start, end)
+            store[row[0]] = stock_info
+        except:
+            print "Error on", row[0]
+
+store.close()
