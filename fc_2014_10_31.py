@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # imports go here
-import sys, argparse, os, json
+import sys
+import argparse
+import os
+import json
 import shutil
 import codecs
 
@@ -20,21 +23,22 @@ parser = argparse.ArgumentParser(description='Build stuff from templated files.'
 # parser.add_argument('--git', metavar='G', type=str,
 #                    help='git repo to template files')
 parser.add_argument('source', metavar='S', type=str,
-                   help='git repo to clone template from')
+                    help='git repo to clone template from')
 parser.add_argument('out', type=str,
-                   help='output folder name')
+                    help='output folder name')
 args = vars(parser.parse_args())
 
 template_source_path = args['source']
 output_root_path = args['out']
+
 
 def clone_repo(remote_url, local_path):
     # TODO: would like to change to clone with --depth=1
     client, host_path = get_transport_and_path(remote_url)
     r = Repo.init(local_path, mkdir=True)
     remote_refs = client.fetch(host_path, r,
-        determine_wants=r.object_store.determine_wants_all,
-        progress=sys.stdout.write)
+                               determine_wants=r.object_store.determine_wants_all,
+                               progress=sys.stdout.write)
 
     # Update the local head to point at the right object
     r["HEAD"] = remote_refs["HEAD"]
