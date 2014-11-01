@@ -1,6 +1,6 @@
 blessings==1.5.1
 boto==2.32.1
-inquirer==1.0.2
+inquirer==2.0.1
 readchar==0.7
 wsgiref==0.1.2
 PyGithub
@@ -8,3 +8,4 @@ nose
 ipdb
 pystache
 dulwich
+flake8
