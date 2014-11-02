@@ -46,8 +46,8 @@ def best_trades(hold_period, num_stocks=1, database='stock_data.h5'):
 
     store = HDFStore('stock_data.h5')
 
-    dates = Series(date_range('2011-01-01', '2012-01-01', freq='5B'))
-    df = DataFrame(index=dates) #dict(dates=dates))
+    dates = Series(date_range('2011-01-01', '2012-01-01', freq='%dB' % hold_period))
+    df = DataFrame(index=dates)
 
     i = 0
     for stock, _ in store.iteritems():
@@ -56,9 +56,10 @@ def best_trades(hold_period, num_stocks=1, database='stock_data.h5'):
         df[stock] = data['return'][dates]
 
     # for d in dates:
-    print df.idxmax(1)
+    # print df.idxmax(1)
 
     store.close()
+    return df.idxmax(1)
 
 if __name__ == '__main__':
     # chart_stock_close_price('YHOO', 'stock_data.h5')
