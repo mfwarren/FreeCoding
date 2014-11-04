@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # imports go here
 from pandas.io.pytables import HDFStore
-from pandas import Series, TimeSeries, rolling_cov, DataFrame
+from pandas import Series, rolling_cov, DataFrame
 from pandas import date_range
-from datetime import datetime
 import matplotlib.pyplot as plt
 
 #
 # Free Coding session for 2014-11-01
 # Written by Matt Warren
 #
+
 
 def chart_stock_close_price(symbol, database):
     store = HDFStore(database)
@@ -41,6 +41,7 @@ def compute_returns(hold_period, database='stock_data.h5'):
         store[stock] = data  # save back to file
 
     store.close()
+
 
 def best_trades(hold_period, num_stocks=1, database='stock_data.h5'):
 

@@ -7,6 +7,8 @@ from pandas.io.pytables import HDFStore
 # Free Coding session for 2014-11-02
 # Written by Matt Warren
 #
+
+
 def calc_return_on_trades(trades, database='stock_data.h5'):
 
     store = HDFStore(database)
