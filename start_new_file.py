@@ -14,9 +14,13 @@ file_template = """#!/usr/bin/env python
 if __name__ == '__main__':
     today = datetime.date.today()
     filename = today.strftime('fc_%Y_%m_%d.py')
-    print filename
-    if os.path.isfile(filename):
+    path = os.path.join(str(today.year), str(today.month))
+    if not os.path.exists(path):
+        os.makedirs(path)
+    full_path = os.path.join(path, filename)
+    print full_path
+    if os.path.isfile(full_path):
         print "Today's file is already created"
     else:
-        with open(filename, 'w') as file:
+        with open(full_path, 'w') as file:
             file.write(file_template % today.isoformat())
