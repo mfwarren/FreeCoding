@@ -16,9 +16,7 @@ def is_balanced(s):
             count -= 1
             if count < 0:
                 return False
-    if count == 0:
-        return True
-    return False
+    return count == 0
 
 
 s = '(()(())()()()'
