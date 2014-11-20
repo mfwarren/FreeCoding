@@ -16,6 +16,6 @@ def foo():
     print d + datetime.timedelta(hours=1)
 
     print d.strftime("%Y-%m-%d")
-    print [(d+datetime.timedelta(hours=i)).strftime("%H:%M:%S") for i in xrange(1,10)]
+    print [(d+datetime.timedelta(hours=i)).strftime("%H:%M:%S") for i in xrange(1, 10)]
 
 foo()
