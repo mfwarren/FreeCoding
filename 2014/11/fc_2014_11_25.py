@@ -8,6 +8,7 @@ import math
 # Written by Matt Warren
 #
 
+
 def mandelbrot(z, c, n=40):
     if abs(z) > 1000:
         return float('nan')
