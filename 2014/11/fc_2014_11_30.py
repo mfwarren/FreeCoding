@@ -71,21 +71,21 @@ class CPAFile():
                 lr = 'D%s%s%s' % (self.format_number(self.record_count, 9),
                                   self.CLIENT_NUMBER,
                                   self.file_number)
-            segment = '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s' % (self.format_alpha(self.debit_transaction_code, 3),
-                                                          self.format_number(transaction.amount, 10),
-                                                          self.format_date(transaction.date),
-                                                          self.format_number(transaction.routing_number, 9),
-                                                          self.format_alpha(transaction.account_number, 12),
-                                                          "0" * 25,
-                                                          self.format_alpha(self.SHORT_NAME, 15),
-                                                          self.format_alpha(transaction.customer_name, 30),
-                                                          self.format_alpha(self.LONG_NAME, 30),
-                                                          self.format_alpha(self.CLIENT_NUBMER, 10),
-                                                          self.format_alpha(transaction.customer_number, 19),
-                                                          "0" * 9,
-                                                          " " * 12,
-                                                          self.format_alpha(self.CLIENT_SUNDRY, 15),
-                                                          " " * 35)
+            segment = "".join((self.format_alpha(self.debit_transaction_code, 3),
+                               self.format_number(transaction.amount, 10),
+                               self.format_date(transaction.date),
+                               self.format_number(transaction.routing_number, 9),
+                               self.format_alpha(transaction.account_number, 12),
+                               "0" * 25,
+                               self.format_alpha(self.SHORT_NAME, 15),
+                               self.format_alpha(transaction.customer_name, 30),
+                               self.format_alpha(self.LONG_NAME, 30),
+                               self.format_alpha(self.CLIENT_NUBMER, 10),
+                               self.format_alpha(transaction.customer_number, 19),
+                               "0" * 9,
+                               " " * 12,
+                               self.format_alpha(self.CLIENT_SUNDRY, 15),
+                               " " * 35))
             self.total_debit_amount += transaction.amount
             self.total_debit_count += 1
             lr = lr + segment
