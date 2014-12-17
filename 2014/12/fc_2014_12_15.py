@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # imports go here
 import os
-import http.server
-import socketserver
+from wsgiref.simple_server import make_server
 import json
 
 import tweepy
@@ -28,20 +27,28 @@ def tweet_msg(message):
     api.update_status(message)
 
 
-class GitHubPingHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
-    def do_GET(self):
+def githubping_app(environ, start_response):
+    if environ['REQUEST_METHOD'] == 'POST':
         try:
-            length = int(self.headers['content-length'])
-            data_string = self.rfile.read(length)
-            data = json.loads(data_string)
+            request_body_size = int(environ['CONTENT_LENGTH'])
+            request_body = environ['wsgi.input'].read(request_body_size)
+        except (TypeError, ValueError):
+            request_body = "0"
+        try:
+            data = json.loads(request_body)
             tweet_msg("GitHub Commit: %s" % data['commits'][-1]['message'])
         except:
-            print(data)
-        self.send_response(200)
-        self.wfile.write("OK")
+            pass
+    status = '200 OK'
+    headers = [('Content-type', 'text/plain; charset=utf-8')]
+    start_response(status, headers)
+    return [b"OK"]
 
 
 if __name__ == '__main__':
-    Handler = GitHubPingHTTPRequestHandler
-    httpd = socketserver.TCPServer(("", PORT), Handler)
-    httpd.serve_forever()
+    httpd = make_server("", PORT, githubping_app)
+    try:
+        print("Starting")
+        httpd.serve_forever()
+    except:
+        print("Stopping")
