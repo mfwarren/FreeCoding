@@ -32,11 +32,8 @@ def githubping_app(environ, start_response):
         try:
             request_body_size = int(environ['CONTENT_LENGTH'])
             request_body = environ['wsgi.input'].read(request_body_size)
-        except (TypeError, ValueError):
-            request_body = "0"
-        try:
             data = json.loads(request_body.decode("utf-8"))
-            tweet_msg("GitHub Commit: %s" % data['commits'][-1]['message'])
+            tweet_msg("Freecoding: %s %s" % (data['commits'][-1]['message'], data['commits'][-1]['url']))
         except Exception as ex:
             print(ex)
             pass
