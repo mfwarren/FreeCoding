@@ -35,9 +35,10 @@ def githubping_app(environ, start_response):
         except (TypeError, ValueError):
             request_body = "0"
         try:
-            data = json.loads(request_body)
+            data = json.loads(request_body.decode("utf-8"))
             tweet_msg("GitHub Commit: %s" % data['commits'][-1]['message'])
-        except:
+        except Exception as ex:
+            print(ex)
             pass
     status = '200 OK'
     headers = [('Content-type', 'text/plain; charset=utf-8')]
