@@ -56,7 +56,7 @@ questions = [
   ]
 
 
-def s3_bucket_maker( answers ):
+def s3_bucket_maker(answers):
     access_key = os.environ[answers['org'] + '_ACCESS_KEY_ID']
     secret_key = os.environ[answers['org'] + '_SECRET_ACCESS_KEY']
     s3conn = S3Connection(access_key, secret_key)
@@ -82,21 +82,21 @@ def s3_bucket_maker( answers ):
             user = iamconn.create_user(answers['username'])
             keys = iamconn.create_access_key(answers['username'])
             print keys
-        else :
+        else:
             raise e
     print user
 
     policy = key_policy_json % (user.arn)
-    user_policy = iamconn.put_user_policy(answers['username'], 'UserKeyPolicy', policy)
+    iamconn.put_user_policy(answers['username'], 'UserKeyPolicy', policy)
 
     actions = "[\"s3:*\"]"
     if (answers['acl'] == 'read'):
         actions = "[\"s3:ListBucket\",\"s3:GetObject\",\"s3:GetObjectVersion\"]"
     policy = bucket_policy_json % (actions, answers['bucket_name'], answers['bucket_name'], answers['bucket_name'], answers['bucket_name'])
-    bucket_policy = iamconn.put_user_policy(answers['username'], 'UserS3Policy', policy)
+    iamconn.put_user_policy(answers['username'], 'UserS3Policy', policy)
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
 
     answers = inquirer.prompt(questions)
     s3_bucket_maker(answers)
