@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # imports go here
+import sys
 import subprocess
 import datetime
 
@@ -17,7 +18,7 @@ def todays_file():
 
 def run_todays_file():
     filename = todays_file()
-    subprocess.call(['python', filename])
+    subprocess.call(['python', filename] + sys.argv[1:])
 
 
 if __name__ == '__main__':
