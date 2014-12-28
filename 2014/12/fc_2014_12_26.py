@@ -34,15 +34,21 @@ def percent_new(name):
     return 'Hello %s!' % name
 
 
+def string_cat(name):
+    return 'Hello ' + name + '!'
+
+
 if __name__ == '__main__':
     v1 = timeit.timeit('format_new_string("Matt")', setup="from __main__ import format_new_string")
     v2 = timeit.timeit('format_exiting_string("Matt")', setup="from __main__ import format_exiting_string")
     v3 = timeit.timeit('template_new("Matt")', setup="from __main__ import template_new")
     v4 = timeit.timeit('template_existing("Matt")', setup="from __main__ import template_existing, tmplt")
     v5 = timeit.timeit('percent_new("Matt")', setup="from __main__ import percent_new")
+    v6 = timeit.timeit('string_cat("Matt")', setup="from __main__ import string_cat")
 
     print('format_new_string', v1)
     print('format_existing_string', v2)
     print('template_new', v3)
     print('template_existing', v4)
     print('percent_new', v5)
+    print('string_cat', v6)
