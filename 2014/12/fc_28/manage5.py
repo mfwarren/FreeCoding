@@ -1,4 +1,4 @@
-# 4:31
+# 7:17
 import os
 
 if os.path.isfile('.env'):
@@ -10,7 +10,7 @@ if os.path.isfile('.env'):
 
 from app import create_app, db
 from app import User, Role
-from flask.ext.script import Manager, Shell
+from flask.ext.script import Shell, Manager
 from flask.ext.migrate import Migrate, MigrateCommand
 
 
@@ -34,4 +34,4 @@ def test():
 
 if __name__ == '__main__':
     manager.run()
-    # 4:35
+    # 7:20
