@@ -18,7 +18,7 @@ args = parser.parse_args()
 
 if __name__ == '__main__':
     today = datetime.date.today()
-    path = os.path.join(str(today.year), str(today.month))
+    path = today.strftime("%Y/%m/")
     if not os.path.exists(path):
         os.makedirs(path)
 
