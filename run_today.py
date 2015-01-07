@@ -25,7 +25,7 @@ def todays_file():
 def run_todays_file():
     filename = todays_file()
     if filename is not None:
-        subprocess.call(['python', filename] + sys.argv[1:])
+        subprocess.call(['python3', filename] + sys.argv[1:])
     else:
         print("No file to run")
 
