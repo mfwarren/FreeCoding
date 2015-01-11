@@ -12,17 +12,13 @@ file_template = """#!/usr/bin/env python3
 #
 """
 
-parser = argparse.ArgumentParser(description="create a new file or package for today's freecoding")
-parser.add_argument('--package', action='store_true', help="Create a package instead of a file.")
-args = parser.parse_args()
 
-if __name__ == '__main__':
-    today = datetime.date.today()
+def create_file(today, do_package):
     path = today.strftime("%Y/%m/")
     if not os.path.exists(path):
         os.makedirs(path)
 
-    if args.package:
+    if do_package:
         package_name = today.strftime('fc_%d')
         path = os.path.join(path, package_name)
         os.makedirs(path)
@@ -37,3 +33,11 @@ if __name__ == '__main__':
     else:
         with open(full_path, 'w') as file:
             file.write(file_template % today.isoformat())
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="create a new file or package for today's freecoding")
+    parser.add_argument('--package', action='store_true', help="Create a package instead of a file.")
+    args = parser.parse_args()
+
+    create_file(datetime.date.today(), args.package)
