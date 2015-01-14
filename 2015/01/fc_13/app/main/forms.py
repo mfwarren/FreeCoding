@@ -1,15 +1,10 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import Required
+from wtforms import StringField, IntegerField, TextAreaField, SubmitField
+from wtforms.validators import Required, Optional
 
 
-class LoginForm(Form):
-    email = StringField('Email', validators=[Required()])
-    password = PasswordField('Password', validators=[Required()])
-    submit = SubmitField('Submit')
-
-
-class SignupForm(Form):
-    email = StringField('Email', validators=[Required()])
-    password = PasswordField('Password', validators=[Required()])
+class NagForm(Form):
+    name = StringField('Name', validators=[Required()])
+    frequency = IntegerField('Number of Days', validators=[Required()])
+    message_to_send = TextAreaField("Message to Send", validators=[Optional()])
     submit = SubmitField('Submit')
