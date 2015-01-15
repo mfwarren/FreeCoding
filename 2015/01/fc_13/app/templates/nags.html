@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Halotis Nag Tool{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+  <h1>Your Nags:</h1>
+  <div>
+    <a href="{{ url_for('main.nag_new') }}" class="btn btn-primary">New Nag</a>
+  </div>
+</div>
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Days Between Entries</th>
+        <th>Days Until Next</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for nag in nags %}
+      <tr>
+        <td><a href="{{ url_for('main.nag_edit', id=nag.id) }}">{{nag.name}}</a></td>
+        <td>{{nag.frequency}}</td>
+        <td></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

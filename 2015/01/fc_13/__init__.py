@@ -15,7 +15,7 @@ if os.path.isfile('.env'):
 
 
 from app import create_app, db
-from app.models import User, Role
+from app.models import User, Role, Nag, NagEntry
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Shell, Manager
 
@@ -25,7 +25,7 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, User=User, Role=Role, db=db)
+    return dict(app=app, User=User, Role=Role, db=db, Nag=Nag, NagEntry=NagEntry)
 manager.add_command('shell', Shell(make_context=make_shell_context))
 manager.add_command('migrate', MigrateCommand)
 

@@ -23,6 +23,7 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
+    nags = db.relationship('Nag', backref='users', lazy='dynamic')
 
     @property
     def password(self):
@@ -66,7 +67,7 @@ class User(UserMixin, db.Model):
         self.password = new_password
         db.session.add(self)
         return True
-        
+
     def generate_email_change_token(self, new_email, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'change_email': self.id, 'new_email': new_email})
@@ -90,6 +91,30 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %s>' % self.username
+
+
+class Nag(db.Model):
+    __tablename__ = 'nags'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128))
+    frequency = db.Column(db.Integer)
+    message_to_send = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    entries = db.relationship('NagEntry', backref='nags', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Nag %s>' % self.name
+
+
+class NagEntry(db.Model):
+    __tablename__ = 'nag_entries'
+    id = db.Column(db.Integer, primary_key=True)
+    nag_id = db.Column(db.Integer, db.ForeignKey('nags.id'))
+    time = db.Column(db.DateTime)
+    note = db.Column(db.String(256))
+
+    def __repr__(self):
+        return '<Entry %s (%s)>' % (self.time, self.note)
 
 
 @login_manager.user_loader

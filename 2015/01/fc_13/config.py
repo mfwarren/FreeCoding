@@ -12,6 +12,7 @@ class Config:
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     MAIL_SUBJECT_PREFIX = '[Nag]'
     MAIL_SENDER = 'Matt Warren <matt.warren@gmail.com>'
+    DEFAULT_FROM_EMAIL = 'matt.warren@gmail.com'
 
     @staticmethod
     def init_app(self):
