@@ -16,7 +16,9 @@
       <tr>
         <th>Name</th>
         <th>Days Between Entries</th>
+        <th>Last Logged Event</th>
         <th>Days Until Next</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -24,7 +26,9 @@
       <tr>
         <td><a href="{{ url_for('main.nag_edit', id=nag.id) }}">{{nag.name}}</a></td>
         <td>{{nag.frequency}}</td>
-        <td></td>
+        <td>{{nag.most_recent_entry.time}}</td>
+        <td>{{nag.days_until_next}}</td>
+        <td>{{ wtf.quick_form(nag.quickcheck_form, action=url_for('main.quick_checkin', id=nag.id)) }}</td>
       </tr>
       {% endfor %}
     </tbody>

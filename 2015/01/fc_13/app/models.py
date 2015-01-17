@@ -1,8 +1,11 @@
+import datetime
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from flask.ext.login import UserMixin
 from . import db, login_manager
+from sqlalchemy import desc
 
 
 class Role(db.Model):
@@ -102,6 +105,21 @@ class Nag(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     entries = db.relationship('NagEntry', backref='nags', lazy='dynamic')
 
+    @property
+    def most_recent_entry(self):
+        return self.entries.order_by(desc('time')).first()
+
+    @property
+    def days_until_next(self):
+        days_since = (self.most_recent_entry.time - datetime.datetime.now()).days
+        return self.frequency - days_since
+
+    @property
+    def quickcheck_form(self):
+        from .main.forms import QuickCheckinForm
+        form = QuickCheckinForm()
+        return form
+
     def __repr__(self):
         return '<Nag %s>' % self.name
 
@@ -110,7 +128,7 @@ class NagEntry(db.Model):
     __tablename__ = 'nag_entries'
     id = db.Column(db.Integer, primary_key=True)
     nag_id = db.Column(db.Integer, db.ForeignKey('nags.id'))
-    time = db.Column(db.DateTime)
+    time = db.Column(db.DateTime, default=db.func.now())
     note = db.Column(db.String(256))
 
     def __repr__(self):

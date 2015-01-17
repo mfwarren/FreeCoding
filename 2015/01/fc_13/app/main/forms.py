@@ -15,3 +15,7 @@ class NagForm(Form):
     def validate_name(self, field):
         if Nag.query.filter_by(user_id=current_user.id, name=field.data).first():
             raise ValidationError('You have a Nag with this name already.')
+
+
+class QuickCheckinForm(Form):
+    submit = SubmitField('Quick Checkin')

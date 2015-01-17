@@ -2,8 +2,8 @@ from flask import render_template, flash, redirect, url_for, abort
 from flask.ext.login import login_required, current_user
 from . import main
 from .. import db
-from .forms import NagForm
-from ..models import Nag
+from .forms import NagForm, QuickCheckinForm
+from ..models import Nag, NagEntry
 
 
 @main.route('/')
@@ -52,3 +52,17 @@ def nag_edit(id):
     form.frequency.data = nag.frequency
     form.message_to_send.data = nag.message_to_send
     return render_template('nag_edit.html', nag=nag, form=form)
+
+
+@main.route('/nags/<int:id>/checkin/', methods=['POST'])
+def quick_checkin(id):
+    nag = Nag.query.get_or_404(id)
+    if nag.user_id != current_user.id:
+        abort(404)
+    form = QuickCheckinForm()
+    if form.validate_on_submit():
+        entry = NagEntry(nag_id=nag.id)
+        db.session.add(entry)
+        return redirect(url_for('main.nags'))
+
+    abort(404)
