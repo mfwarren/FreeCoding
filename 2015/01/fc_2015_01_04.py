@@ -20,6 +20,7 @@ parser.add_argument('amount_cents', type=int)
 
 DATA = {1: {'amount': 1.0}}
 
+
 def abort_if_not_present(t_id):
     if t_id not in DATA:
         abort(404, message='Transfer not found')
@@ -41,6 +42,7 @@ class TransferList(Resource):
 
 api.add_resource(Transfer, '/transfers/<string:t_id>')
 api.add_resource(TransferList, '/transfers')
+
 
 def make_shell_context():
     return dict(app=app, TransferList=TransferList, Transfer=Transfer, api=api)
