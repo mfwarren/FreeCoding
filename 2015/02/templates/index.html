@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Website Status</title>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+            namespace = ''; // change to an empty string to use the global namespace
+            // the socket.io documentation recommends sending an explicit package upon connection
+            // this is specially important when using the global namespace
+            var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+            socket.on('connect', function() {
+                socket.emit('my event', {data: 'I\'m connected!'});
+            });
+            // event handler for server sent data
+            // the data is displayed in the "Received" section of the page
+            socket.on('my response', function(msg) {
+              for(var k in msg.statuses){
+                var obj = $("#"+k.replace(/[^a-z]/gi, ''));
+                if(obj.length == 0){
+                  $("#statuses").append("<div class='website' id=\"" + k.replace(/[^a-z]/gi, '') + "\">"+k+"</div>");
+                  obj = $("#"+k.replace(/[^a-z]/gi, ''));
+                }
+                if(obj){
+                  if(msg.statuses[k] == 200){
+                    obj.addClass('green');
+                    obj.removeClass('red');
+                  } else {
+                    obj.removeClass('green');
+                    obj.addClass('red');
+                  }
+                }
+              }
+            });
+        });
+    </script>
+    <style>
+    .website {
+      background-color: grey;
+      padding: 30px;
+      width: 500px;
+      border-radius: 10px;
+      color: white;
+      font-size: 22px;
+      margin: 10px;
+      }
+    .website.green {
+      background-color:green;
+    }
+    .website.red {
+      background-color:red;
+    }
+    html {
+      background-color: rgb(63, 62, 62);
+    }
+    </style>
+</head>
+<body>
+
+    <div id="statuses"></div>
+</body>
+</html>
