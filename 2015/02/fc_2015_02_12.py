@@ -9,6 +9,7 @@ import urllib
 
 from flask import Flask, render_template
 from flask.ext.socketio import SocketIO
+from flask_debugtoolbar import DebugToolbarExtension
 
 #
 # Free Coding session for 2015-02-12
@@ -17,12 +18,17 @@ from flask.ext.socketio import SocketIO
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'oaisndviouhwdnvilxuanbodni'
+app.debug = True
 socketio = SocketIO(app)
+toolbar = DebugToolbarExtension(app)
 thread = None
 
 SITES = [
     'http://halotis.com',
-    'http://mattwarren.co'
+    'http://mattwarren.co',
+    'http://columfurey.com',
+    'http://www.routeburn.co',
+    'http://persistenceapp.com'
 ]
 
 
@@ -37,7 +43,6 @@ def background_thread():
     """Example of how to send server generated events to clients."""
     while True:
         status = update_website_status()
-        print(status)
         socketio.emit('my response',
                       {'data': 'Server generated event', 'statuses': status},
                       namespace='')
