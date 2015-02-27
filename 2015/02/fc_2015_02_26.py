@@ -22,7 +22,6 @@ app.config['SECRET_KEY'] = 'asdivbaiwubdfilsudbxv'
 app.debug = True
 socketio = SocketIO(app)
 thread = None
-# hub = Github()
 hub = Github(os.environ['GITHUB_USERNAME'], os.environ['GITHUB_PASSWORD'])
 
 USERS = [
@@ -41,9 +40,8 @@ def get_public_events():
 def background_thread():
     while True:
         events = get_public_events()
-        print(events)
         socketio.emit('response', {'data': 'events', 'events': events}, namespace='')
-        time.sleep(10)
+        time.sleep(30)
 
 
 @app.route('/')
