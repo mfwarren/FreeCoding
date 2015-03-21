@@ -95,7 +95,6 @@ class Grid(object):
         return self.rows[y % self.height][x % self.width]
 
     def assign(self, y, x, state):
-        print('assign')
         self.rows[y % self.height][x % self.width] = state
 
 
