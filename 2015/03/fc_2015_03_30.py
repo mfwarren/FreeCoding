@@ -77,7 +77,7 @@ if __name__ == '__main__':
     for income, population in avg_income_counts:
         total_income += (tier_tax(income, AB) * population)
 
-    print("Estimated Alberta income: %f", total_income)
+    # print("Estimated Alberta income: %f" % total_income)
 
     for province, tiers in PROVINCES.items():
         scheme_total = 0
@@ -85,27 +85,3 @@ if __name__ == '__main__':
             scheme_total += (tier_tax(income, tiers) * population)
         difference = ((scheme_total - total_income) / total_income) * 100
         print("Using %s Tax scheme income is %.1f%% %s" % (province, abs(difference), 'more' if difference > 0 else 'less'))
-    print(total_income)
-
-
-
-
-    # incomes = list(range(20000, 500000, 5000))
-    # after_tax_amount = [tax2015(amt) for amt in incomes]
-    # line = Scatter(x=incomes, y=after_tax_amount)
-    # data = Data([line])
-    # layout = Layout(
-    #     title='Federal Income Tax Amount - Canada 2015 tax rules',
-    #     xaxis=XAxis(
-    #         title='Income',
-    #         showgrid=False,
-    #         zeroline=False
-    #     ),
-    #     yaxis=YAxis(
-    #         title='Income Tax',
-    #         showline=False
-    #     )
-    # )
-    # fig = Figure(data=data, layout=layout)
-    # plot_url = py.plot(fig, filename='Federal Tax Amount - Canada 2015 tax rules')
-    # print(plot_url)
