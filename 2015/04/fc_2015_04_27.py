@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # imports go here
-import os
 import smtplib
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
