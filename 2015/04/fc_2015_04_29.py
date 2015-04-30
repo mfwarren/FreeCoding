@@ -1,20 +1,33 @@
 #!/usr/bin/env python3
 # imports go here
+from gevent import monkey
+monkey.patch_all()
+
+import time
 import os
 import datetime
 import pytz
+from threading import Thread
 
 from github import Github
 
-import plotly.plotly as py
-from plotly.graph_objs import Bar, Data, Layout, Figure
+from flask import Flask, render_template
+from flask.ext.socketio import SocketIO
 
 #
-# Free Coding session for 2015-04-26
+# Free Coding session for 2015-04-29
 # Written by Matt Warren
 #
 
+
 TIMEZONE = pytz.timezone('America/Edmonton')
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'asodibuvaiwuegx'
+
+socketio = SocketIO(app)
+
+thread = None
 
 
 def process_issues_event(event, timeseries):
@@ -39,15 +52,26 @@ def recent_issues():
             break
     return date_array, timeseries
 
-if __name__ == '__main__':
-    date_array, timeseries = recent_issues()
 
-    issue_events = Bar(
-        x=date_array,
-        y=[timeseries[d] for d in date_array],
-        name='Issues Opened or Closed'
-    )
-    data = Data([issue_events])
-    layout = Layout(barmode='stacked')
-    fig = Figure(data=data, layout=layout)
-    plot_url = py.plot(fig, filename='Github Issue Activity')
+def background_thread():
+    while True:
+        date_array, timeseries = recent_issues()
+        socketio.emit('recent issues', {'timeseries': timeseries}, namespace='')
+        time.sleep(60*30)  # 30 minutes
+
+
+@app.route('/')
+def index():
+    global thread
+    if thread is None:
+        thread = Thread(target=background_thread)
+        thread.start()
+    return render_template('index.html')
+
+@socketio.on('event')
+def message(message):
+    pass
+
+
+if __name__ == '__main__':
+    socketio.run(app)
