@@ -7,9 +7,9 @@
 #
 
 
-rate_per_kwh = 0.09005
+rate_per_kwh = 0.15
 
-solar_panel_installed_cost_per_watt = 4.00
+solar_panel_installed_cost_per_watt = 3.00
 
 avg_home_install_watts = 3000.0
 
@@ -29,3 +29,20 @@ print('Daily output (kWh): %s' % (daily_output / 1000.0))
 print("monthly production (kWh): %s" % (monthly_output / 1000.0))
 print("monthly revenue: $%s" % monthly_revenue)
 print("ROI (years) %s" % roi)
+print('payments under contract: $%s' % (monthly_revenue*12*20))
+print("annual revenue: $%s" % (monthly_revenue*12))
+
+
+# debt financed at x% non-compounding interest each years (bond)
+interest_rate = 0.005
+annual_revenue = monthly_revenue * 12
+
+debt_principal = [avg_install_cost_per_house, ]
+interest_due = []
+for i in range(20):
+    interest = debt_principal[i] * interest_rate
+    interest_due.append(interest)
+    profit = annual_revenue - interest
+    debt_principal.append(debt_principal[i] - profit)
+
+print(debt_principal)
