@@ -31,7 +31,7 @@ for i in range(YEARS_TO_SIMULATE):
     revenue_per_kwh.append(revenue_per_kwh[i] * (1+INFLATION_RATE))
 
 EARLY_GROWTH_RATE_YOY = 0.6
-LATE_GROWTH_RATE_YOY = 0.01
+LATE_GROWTH_RATE_YOY = 0.1
 INSTALLS_IN_FIRST_YEAR = 200
 
 installs_per_year = [INSTALLS_IN_FIRST_YEAR, ]
@@ -66,7 +66,7 @@ roi = (avg_install_cost_per_house / monthly_revenue) / 12.0
 
 kwh_production_per_year = [(INSTALLS_IN_FIRST_YEAR/2)*daily_output_kwh*365]
 for i in range(YEARS_TO_SIMULATE):
-    prev_year_base = kwh_production_per_year[i]*2
+    prev_year_base = sum(installs_per_year[:i]) * daily_output_kwh * 365
     avg_from_this_year = (installs_per_year[i+1]/2)*daily_output_kwh*365
     total = prev_year_base + avg_from_this_year
     kwh_production_per_year.append(total)
@@ -104,7 +104,7 @@ print(debt_principal)
 line = Scatter(x=list(range(2015, 2015+YEARS_TO_SIMULATE)), y=annual_revenue)
 line2 = Scatter(x=list(range(2015, 2015+YEARS_TO_SIMULATE)), y=installs_per_year)
 line3 = Scatter(x=list(range(2015, 2015+YEARS_TO_SIMULATE)), y=kwh_production_per_year)
-data = Data([line, line2])
+data = Data([line])
 layout = Layout(
     title='Revenue per year under contract',
     xaxis=XAxis(
