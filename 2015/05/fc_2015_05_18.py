@@ -2,6 +2,7 @@
 # imports go here
 import plotly.plotly as py
 from plotly.graph_objs import *
+import pandas as pd
 
 #
 # Free Coding session for 2015-05-18
@@ -23,7 +24,7 @@ for i in range(YEARS_TO_SIMULATE):
         # linear interpolation
         cost = ((INSTALL_COST_PER_WATT_2025 - INSTALL_COST_PER_WATT) / 10) * i + INSTALL_COST_PER_WATT
     else:
-        cost = cost_per_watt[i-1] * (1+INFLATION_RATE)
+        cost = cost_per_watt[i] * (1+INFLATION_RATE)
     cost_per_watt.append(cost)
 
 revenue_per_kwh = [KWH_PRICE, ]
