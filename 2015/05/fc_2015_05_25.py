@@ -18,7 +18,7 @@ YEARS_TO_SIMULATE = 30
 INFLATION_RATE = 0.02
 INTEREST_RATE = 0.04
 
-KWH_PRICE = 0.15  # 2015 dollars
+KWH_PRICE = 0.14  # 2015 dollars
 
 INSTALL_COST_PER_WATT = 3.00  # in 2015
 INSTALL_COST_PER_WATT_2025 = 2.00
@@ -111,6 +111,25 @@ df['net new debt'] = pd.Series(net_new_debt, index=df.index)
 df['accumulated debt'] = pd.Series(list(itertools.accumulate([i for i in df['net new debt']])), index=df.index)
 
 print(df)
+
+writer = pd.ExcelWriter('solar.xlsx', engine='xlsxwriter')
+df.to_excel(writer, sheet_name="Sheet1")
+writer.save()
+
+# how much is a single customer worth?
+CONTRACT_LENGTH = 20
+PERCENTAGE_WHO_EXTEND = 0.9
+
+install_cost = INSTALL_COST_PER_WATT * 1000 * AVG_INSTALL_SIZE_KW
+estimated_electricity_sold_kwh = [annual_kwh_per_kw * AVG_INSTALL_SIZE_KW] * 30
+single_contract_data = pd.DataFrame(estimated_electricity_sold_kwh, columns=['Electricity Generated'])
+single_contract_data['Price Per KWH'] = df['Price Per KWH']
+single_contract_data['Revenue'] = single_contract_data['Price Per KWH'] * single_contract_data['Electricity Generated']
+total_contract_value = sum(single_contract_data['Revenue'][:20])
+extended_value = sum(single_contract_data['Revenue'][20:]) * PERCENTAGE_WHO_EXTEND
+print("Total Contract Value $", total_contract_value)
+print("Beyond Contract Value $", extended_value)
+print("Total Customer Value $", total_contract_value + extended_value)
 
 line = Scatter(x=df['Year'], y=df['Cost Per Watt'])
 line2 = Scatter(x=df['Year'], y=df['Price Per KWH'])
