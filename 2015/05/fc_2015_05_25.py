@@ -15,10 +15,10 @@ from plotly.graph_objs import *
 years = list(range(2015, 2045))
 
 YEARS_TO_SIMULATE = 30
-INFLATION_RATE = 0.02
+INFLATION_RATE = 0.03
 INTEREST_RATE = 0.04
 
-KWH_PRICE = 0.14  # 2015 dollars
+KWH_PRICE = 0.12  # 2015 dollars
 
 INSTALL_COST_PER_WATT = 3.00  # in 2015
 INSTALL_COST_PER_WATT_2025 = 2.00
