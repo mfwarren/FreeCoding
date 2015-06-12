@@ -15,7 +15,6 @@ from sklearn.cluster import AgglomerativeClustering
 
 lena = sp.misc.lena()
 X = np.reshape(lena, (-1, 1))
-print(X)
 
 connectivity = grid_to_graph(*lena.shape)
 
