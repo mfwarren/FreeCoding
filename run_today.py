@@ -19,13 +19,18 @@ def todays_file():
     filename = today.strftime('%Y/%m/fc_%d/__init__.py')
     if os.path.isfile(filename):
         return filename
+    filename = today.strftime("%Y/%m/fc_%Y_%m_%d.swift")
+    if os.path.isfile(filename):
+        return filename
     return None
 
 
 def run_todays_file():
     filename = todays_file()
-    if filename is not None:
+    if filename is not None and filename.endswith('.py'):
         subprocess.call(['python3', filename] + sys.argv[1:])
+    elif filename is not None and filename.endswith('.swift'):
+        subprocess.call(['swift', filename] + sys.argv[1:])
     else:
         print("No file to run")
 
