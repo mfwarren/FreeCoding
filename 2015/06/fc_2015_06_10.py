@@ -20,19 +20,12 @@ china = load_sample_image("china.jpg")
 china = np.array(china, dtype=np.float64) / 255
 
 w, h, d = original_shape = tuple(china.shape)
-assert d == 3
 image_array = np.reshape(china, (w * h, d))
 
 # grab a sample of pixels to run kmeans on
 image_array_sample = shuffle(image_array, random_state=0)[:1000]
 kmeans = KMeans(n_clusters=n_colors, random_state=0).fit(image_array_sample)
-
-
 labels = kmeans.predict(image_array)
-# codebook_random = shuffle(image_array, random_state=0)[:n_colors + 1]
-# labels_random = pairwise_distances_argmin(codebook_random,
-#                                           image_array,
-#                                           axis=0)
 
 
 def recreate_image(codebook, labels, w, h):
